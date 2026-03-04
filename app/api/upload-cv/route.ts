@@ -1,5 +1,6 @@
 import { openai } from "@/lib/openai"
 import { supabaseAdmin } from "@/lib/supabase"
+// import * as pdfjs from "pdfjs-dist/legacy/build/pdf"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -20,29 +21,55 @@ export async function POST(req: Request) {
     }
 
     const arrayBuffer = await file.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
+    const buffer = new Uint8Array(arrayBuffer)
 
-    // Parse PDF safely
-    let cvText = ""
+ // Parse PDF safely
+ let cvText = ""
 
     try {
-      const { pdf } = await import("pdf-parse")
-      const parsed = await pdf(buffer)
+    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs")
 
-      cvText = parsed.text
+    // WAJIB set worker
+    pdfjs.GlobalWorkerOptions.workerSrc =
+        "pdfjs-dist/build/pdf.worker.mjs"
+
+    const loadingTask = pdfjs.getDocument({
+        data: buffer,
+        useWorkerFetch: false,
+        isEvalSupported: false,
+        standardFontDataUrl:
+            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/standard_fonts/"
+        } as any)
+
+    const pdfDoc = await loadingTask.promise
+
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i)
+
+        const textContent = await page.getTextContent()
+
+        const pageText = textContent.items
+        .map((item: any) => item.str)
+        .filter(Boolean)
+        .join(" ")
+
+        cvText += pageText + " "
+    }
+
+    cvText = cvText
         .replace(/\s+/g, " ")
         .slice(0, 12000)
 
     } catch (err) {
-      console.error("PDF parse error:", err)
+    console.error("PDF parse error:", err)
 
-      return Response.json(
+    return Response.json(
         { error: "Failed to parse PDF" },
         { status: 500 }
-      )
+    )
     }
 
-    // Get rubric
+    // 🔥 Get rubric
     const { data: job } = await supabaseAdmin
       .from("jobs")
       .select("rubric_json")
@@ -58,7 +85,7 @@ export async function POST(req: Request) {
 
     const rubric = job.rubric_json
 
-    // AI evaluation
+    // 🔥 AI evaluation
     const response = await openai.responses.create({
       model: "gpt-4.1-mini",
       input: `
@@ -94,6 +121,7 @@ ${cvText}
 
     const scoreResult = JSON.parse(cleaned)
 
+    // 🔥 Save candidate
     const { data, error } = await supabaseAdmin
       .from("candidates")
       .insert({
