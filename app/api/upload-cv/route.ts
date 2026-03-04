@@ -1,6 +1,9 @@
 import { openai } from "@/lib/openai"
 import { supabaseAdmin } from "@/lib/supabase"
 // import * as pdfjs from "pdfjs-dist/legacy/build/pdf"
+import DOMMatrix from "@thednp/dommatrix"
+
+;(global as any).DOMMatrix = DOMMatrix
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
