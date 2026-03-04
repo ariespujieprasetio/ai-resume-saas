@@ -154,13 +154,13 @@ export default function JobDetailPage() {
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-8 py-16 relative">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-16 relative">
 
         {/* HEADER */}
 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-10">
 
-          <h1 className="text-3xl font-semibold">
+        <h1 className="text-2xl sm:text-3xl font-semibold">
             Candidate Ranking
           </h1>
 
@@ -181,7 +181,7 @@ export default function JobDetailPage() {
               Veritik Hiring Insights
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-sm">
 
               <div>
                 <div className="text-neutral-500 mb-1">Average Score</div>
@@ -209,26 +209,37 @@ export default function JobDetailPage() {
 
         {/* FILTER */}
 
-        <div className="flex flex-wrap gap-3 mb-8 text-sm">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-8 text-sm items-center">
 
-          <button onClick={()=>setFilter("all")} className="px-4 py-1 bg-neutral-800 rounded-lg">All</button>
-          <button onClick={()=>setFilter("strong")} className="px-4 py-1 bg-neutral-800 rounded-lg">Strong Fit</button>
-          <button onClick={()=>setFilter("potential")} className="px-4 py-1 bg-neutral-800 rounded-lg">Potential</button>
-          <button onClick={()=>setFilter("rejected")} className="px-4 py-1 bg-neutral-800 rounded-lg">Rejected</button>
+          <button onClick={()=>setFilter("all")} className="px-4 py-1 bg-neutral-800 rounded-lg">
+            All
+          </button>
 
-          <div className="ml-auto flex gap-3">
+          <button onClick={()=>setFilter("strong")} className="px-4 py-1 bg-neutral-800 rounded-lg">
+            Strong Fit
+          </button>
+
+          <button onClick={()=>setFilter("potential")} className="px-4 py-1 bg-neutral-800 rounded-lg">
+            Potential
+          </button>
+
+          <button onClick={()=>setFilter("rejected")} className="px-4 py-1 bg-neutral-800 rounded-lg">
+            Rejected
+          </button>
+
+          <div className="flex gap-2 sm:gap-3 sm:ml-auto">
 
             <button onClick={()=>setSort("score")} className="px-4 py-1 bg-neutral-800 rounded-lg">
-              Highest Score
+              Highest
             </button>
 
             <button onClick={()=>setSort("lowest")} className="px-4 py-1 bg-neutral-800 rounded-lg">
-              Lowest Score
+              Lowest
             </button>
 
           </div>
 
-        </div>
+          </div>
 
 
         {/* UPLOAD */}
@@ -237,7 +248,7 @@ export default function JobDetailPage() {
 
           <label className="block cursor-pointer">
 
-            <div className="bg-neutral-900 border border-dashed border-neutral-700 rounded-2xl p-10 text-center hover:border-white transition">
+          <div className="bg-neutral-900 border border-dashed border-neutral-700 rounded-2xl p-6 sm:p-10 text-center hover:border-white transition">
 
               <div className="text-lg font-semibold mb-2">
                 {uploading ? "Uploading CVs..." : "Upload Candidate CVs"}
@@ -299,7 +310,7 @@ export default function JobDetailPage() {
                   className="cursor-pointer bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-600 transition"
                 >
 
-                  <div className="flex justify-between items-start mb-4">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
 
                     <div>
 

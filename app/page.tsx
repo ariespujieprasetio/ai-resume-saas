@@ -29,110 +29,131 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
 
-      {/* background glow */}
+      {/* glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-8 py-16 relative">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-16 relative">
 
         {/* HEADER */}
-        <div className="flex justify-between items-center mb-16">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 mb-12">
 
           <div>
-            <h1 className="text-4xl font-semibold tracking-tight bg-linear-to-r from-white to-neutral-400 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-linear-to-r from-white to-neutral-400 bg-clip-text text-transparent">
               Veritik Resume Screening
             </h1>
 
-            <p className="text-neutral-400 mt-3 max-w-lg">
+            <p className="text-neutral-400 mt-3 max-w-lg text-sm sm:text-base">
               Automatically analyze and rank candidates using AI based on job requirements.
             </p>
           </div>
 
           <Link
             href="/create-job"
-            className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:scale-[1.02] transition"
+            className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:scale-[1.02] transition w-full sm:w-auto text-center"
           >
             + Create Job
           </Link>
 
         </div>
 
-        {/* STATS */}
-        <div className="grid md:grid-cols-3 gap-6 mb-14">
 
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+        {/* STATS */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-14">
+
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
             <p className="text-neutral-400 text-sm">Total Jobs</p>
-            <h3 className="text-3xl font-semibold mt-2">
+            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
               {jobs?.length ?? 0}
             </h3>
           </div>
 
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
             <p className="text-neutral-400 text-sm">Candidates Screened</p>
-            <h3 className="text-3xl font-semibold mt-2">
+            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
               {totalCandidates}
             </h3>
           </div>
 
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
             <p className="text-neutral-400 text-sm">Average Match Score</p>
-            <h3 className="text-3xl font-semibold mt-2">
+            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
               {avgScore !== null ? `${avgScore}%` : "—"}
             </h3>
           </div>
 
         </div>
 
-        {/* JOB LIST */}
-        <div className="grid gap-6">
 
-          {jobs?.map((job) => (
+        {/* JOB SECTION */}
 
-            <Link
-              key={job.id}
-              href={`/jobs/${job.id}`}
-              className="group bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-neutral-600 hover:bg-neutral-900/70 transition backdrop-blur"
-            >
+        <div className="mt-12">
 
-              <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold mb-4 text-neutral-300">
+            Jobs
+          </h2>
 
-                <div>
-                  <h2 className="text-xl font-semibold group-hover:text-white">
-                    {job.title}
-                  </h2>
+          <div className="grid gap-4">
 
-                  <p className="text-neutral-500 text-sm mt-1">
-                    AI screening enabled
-                  </p>
+            {jobs?.map((job) => (
+
+              <Link
+                key={job.id}
+                href={`/jobs/${job.id}`}
+                className="group bg-neutral-900/60 border border-neutral-800 rounded-xl p-5 hover:border-neutral-600 hover:bg-neutral-900 transition"
+              >
+
+                <div className="flex justify-between items-center">
+
+                  <div>
+
+                    <h3 className="text-lg font-semibold group-hover:text-white">
+                      {job.title}
+                    </h3>
+
+                    <p className="text-neutral-500 text-sm mt-1">
+                      AI screening enabled
+                    </p>
+
+                  </div>
+
+                  <div className="text-right">
+
+                    <p className="text-xs text-neutral-500 mb-1">
+                      {new Date(job.created_at).toLocaleDateString()}
+                    </p>
+
+                    <span className="text-neutral-400 group-hover:text-white">
+                      →
+                    </span>
+
+                  </div>
+
                 </div>
 
-                <span className="text-sm text-neutral-500">
-                  {new Date(job.created_at).toLocaleDateString()}
-                </span>
+              </Link>
+
+            ))}
+
+            {jobs?.length === 0 && (
+
+              <div className="text-neutral-400 border border-neutral-800 rounded-2xl p-8 text-center bg-neutral-900">
+
+                <p className="mb-4">
+                  No jobs created yet
+                </p>
+
+                <Link
+                  href="/create-job"
+                  className="bg-white text-black px-5 py-2 rounded-lg"
+                >
+                  Create your first job
+                </Link>
 
               </div>
 
-            </Link>
+            )}
 
-          ))}
-
-          {jobs?.length === 0 && (
-
-            <div className="text-neutral-400 border border-neutral-800 rounded-2xl p-10 text-center bg-neutral-900">
-
-              <p className="mb-4">
-                No jobs created yet
-              </p>
-
-              <Link
-                href="/create-job"
-                className="bg-white text-black px-5 py-2 rounded-lg"
-              >
-                Create your first job
-              </Link>
-
-            </div>
-
-          )}
+          </div>
 
         </div>
 
