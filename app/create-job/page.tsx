@@ -12,23 +12,34 @@ export default function CreateJobPage() {
 
   async function handleSubmit() {
     if (!title || !description) return
-
+  
     setLoading(true)
-
-    const res = await fetch("/api/generate-rubric", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ title, description })
-    })
-
-    const data = await res.json()
-
-    if (data?.jobId) {
-      router.push(`/jobs/${data.jobId}`)
+  
+    try {
+      const res = await fetch("/api/generate-rubric", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title, description })
+      })
+  
+      const data = await res.json()
+  
+      console.log("API RESPONSE:", data)
+  
+      if (data?.jobId) {
+        router.push(`/jobs/${data.jobId}`)
+        return
+      }
+  
+      alert("Failed to create job")
+  
+    } catch (err) {
+      console.error(err)
+      alert("Something went wrong")
     }
-
+  
     setLoading(false)
   }
 

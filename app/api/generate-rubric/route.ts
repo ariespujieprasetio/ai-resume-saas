@@ -75,7 +75,9 @@ ${description}
       return Response.json({ error }, { status: 500 })
     }
 
-    return Response.json(data)
+    return Response.json({
+        jobId: data.id
+      })
 
   } catch (err: any) {
     console.error("Generate rubric error:", err)
