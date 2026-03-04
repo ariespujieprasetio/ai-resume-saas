@@ -1,40 +1,55 @@
 import { openai } from "@/lib/openai"
 import { supabaseAdmin } from "@/lib/supabase"
-import { pdf } from "pdf-parse";
+
 export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+export const maxDuration = 60
 
 export async function POST(req: Request) {
   try {
+    // Dynamic import supaya tidak crash saat build di Vercel
+    const { pdf } = await import("pdf-parse")
+
     const formData = await req.formData()
 
     const jobId = formData.get("jobId") as string
     const file = formData.get("file") as File
 
     if (!file || !jobId) {
-      return Response.json({ error: "Missing file or jobId" }, { status: 400 })
+      return Response.json(
+        { error: "Missing file or jobId" },
+        { status: 400 }
+      )
     }
 
+    // Convert file -> buffer
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
-    // 🔥 Parse PDF text
+    // Parse PDF text
     const parsed = await pdf(buffer)
-    const cvText = parsed.text.slice(0, 15000) // limit token usage
 
-    // 🔥 Get rubric from DB
-    const { data: job } = await supabaseAdmin
+    const cvText = parsed.text
+      .replace(/\s+/g, " ")
+      .slice(0, 12000) // limit token usage
+
+    // Get rubric dari DB
+    const { data: job, error: jobError } = await supabaseAdmin
       .from("jobs")
       .select("rubric_json")
       .eq("id", jobId)
       .single()
 
-    if (!job) {
-      return Response.json({ error: "Job not found" }, { status: 404 })
+    if (jobError || !job) {
+      return Response.json(
+        { error: "Job not found" },
+        { status: 404 }
+      )
     }
 
     const rubric = job.rubric_json
 
-    // 🔥 AI Scoring
+    // AI scoring
     const response = await openai.responses.create({
       model: "gpt-4.1-mini",
       input: `
@@ -83,7 +98,7 @@ ${cvText}
 
     const scoreResult = JSON.parse(cleaned)
 
-    // 🔥 Save candidate
+    // Save candidate
     const { data, error } = await supabaseAdmin
       .from("candidates")
       .insert({
@@ -98,13 +113,17 @@ ${cvText}
       .single()
 
     if (error) {
-      return Response.json({ error }, { status: 500 })
+      return Response.json(
+        { error: error.message },
+        { status: 500 }
+      )
     }
 
     return Response.json(data)
 
   } catch (err: any) {
     console.error("Upload CV error:", err)
+
     return Response.json(
       { error: "Failed to process CV" },
       { status: 500 }
