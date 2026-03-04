@@ -7,9 +7,6 @@ export const maxDuration = 60
 
 export async function POST(req: Request) {
   try {
-    // Dynamic import supaya tidak crash saat build di Vercel
-    const { pdf } = await import("pdf-parse")
-
     const formData = await req.formData()
 
     const jobId = formData.get("jobId") as string
@@ -22,25 +19,37 @@ export async function POST(req: Request) {
       )
     }
 
-    // Convert file -> buffer
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
-    // Parse PDF text
-    const parsed = await pdf(buffer)
+    // Parse PDF safely
+    let cvText = ""
 
-    const cvText = parsed.text
-      .replace(/\s+/g, " ")
-      .slice(0, 12000) // limit token usage
+    try {
+      const { pdf } = await import("pdf-parse")
+      const parsed = await pdf(buffer)
 
-    // Get rubric dari DB
-    const { data: job, error: jobError } = await supabaseAdmin
+      cvText = parsed.text
+        .replace(/\s+/g, " ")
+        .slice(0, 12000)
+
+    } catch (err) {
+      console.error("PDF parse error:", err)
+
+      return Response.json(
+        { error: "Failed to parse PDF" },
+        { status: 500 }
+      )
+    }
+
+    // Get rubric
+    const { data: job } = await supabaseAdmin
       .from("jobs")
       .select("rubric_json")
       .eq("id", jobId)
       .single()
 
-    if (jobError || !job) {
+    if (!job) {
       return Response.json(
         { error: "Job not found" },
         { status: 404 }
@@ -49,47 +58,34 @@ export async function POST(req: Request) {
 
     const rubric = job.rubric_json
 
-    // AI scoring
+    // AI evaluation
     const response = await openai.responses.create({
       model: "gpt-4.1-mini",
       input: `
-You are an unbiased AI hiring evaluator.
+Evaluate candidate strictly vs rubric.
 
-Evaluate this candidate strictly against the provided rubric.
-
-Return STRICT JSON only.
+Return JSON only.
 
 {
-  "overall_score": number,
-  "skills_score": number,
-  "experience_score": number,
-  "education_score": number,
-  "strengths": string[],
-  "weaknesses": string[],
-  "summary": string
+ "overall_score": number,
+ "skills_score": number,
+ "experience_score": number,
+ "education_score": number,
+ "strengths": string[],
+ "weaknesses": string[],
+ "summary": string
 }
 
 Rubric:
 ${JSON.stringify(rubric)}
 
-Candidate CV:
+CV:
 ${cvText}
 `
     })
 
-    const firstOutput = response.output?.[0]
-
-    let outputText = ""
-
-    if (
-      firstOutput &&
-      firstOutput.type === "message" &&
-      firstOutput.content &&
-      firstOutput.content.length > 0 &&
-      firstOutput.content[0].type === "output_text"
-    ) {
-      outputText = firstOutput.content[0].text
-    }
+    const outputText =
+      (response.output?.[0] as any)?.content?.[0]?.text || "{}"
 
     const cleaned = outputText
       .replace(/```json/g, "")
@@ -98,7 +94,6 @@ ${cvText}
 
     const scoreResult = JSON.parse(cleaned)
 
-    // Save candidate
     const { data, error } = await supabaseAdmin
       .from("candidates")
       .insert({
@@ -113,15 +108,12 @@ ${cvText}
       .single()
 
     if (error) {
-      return Response.json(
-        { error: error.message },
-        { status: 500 }
-      )
+      return Response.json({ error }, { status: 500 })
     }
 
     return Response.json(data)
 
-  } catch (err: any) {
+  } catch (err) {
     console.error("Upload CV error:", err)
 
     return Response.json(
