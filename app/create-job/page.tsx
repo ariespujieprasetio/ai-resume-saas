@@ -93,17 +93,28 @@ export default function CreateJobPage() {
 
             {/* JOB DESCRIPTION */}
             <div>
-              <label className="block text-sm text-neutral-400 mb-2">
+            <label className="block text-sm text-neutral-400 mb-2">
                 Job Description
-              </label>
+            </label>
 
-              <textarea
+            <textarea
                 rows={8}
+                maxLength={3000}
                 placeholder="Paste complete job description here..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition resize-none"
-              />
+            />
+
+            <div
+                className={`text-xs mt-2 text-right ${
+                description.length > 2700
+                    ? "text-red-400"
+                    : "text-neutral-500"
+                }`}
+            >
+                {description.length} / 3000
+            </div>
             </div>
 
 
