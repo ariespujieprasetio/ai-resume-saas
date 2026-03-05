@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 type Candidate = {
   id: string
@@ -30,7 +31,7 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
 
 function getAIRecommendation(score: number) {
   if (score >= 85) {
-    return { label: "Strong Fit", icon: "✅", confidence: "High", color: "text-green-400" }
+    return { label: "Recommended", icon: "✅", confidence: "High", color: "text-green-400" }
   }
 
   if (score >= 70) {
@@ -44,6 +45,7 @@ export default function JobDetailPage() {
 
   const params = useParams()
   const jobId = params.jobId as string
+  const router = useRouter()
 
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [loading, setLoading] = useState(false)
@@ -158,14 +160,25 @@ export default function JobDetailPage() {
 
         {/* HEADER */}
 
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-10">
+        <div className="mb-10">
 
-        <h1 className="text-2xl sm:text-3xl font-semibold">
-            Candidate Ranking
-          </h1>
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white mb-3"
+          >
+            ← Back
+          </button>
 
-          <div className="text-sm text-neutral-400">
-            {candidates.length} Candidates
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+
+            <h1 className="text-2xl sm:text-3xl font-semibold">
+              Candidate Ranking
+            </h1>
+
+            <div className="text-sm text-neutral-400">
+              {candidates.length} Candidates
+            </div>
+
           </div>
 
         </div>

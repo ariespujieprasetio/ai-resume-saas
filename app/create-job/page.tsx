@@ -50,6 +50,14 @@ export default function CreateJobPage() {
 
         <div className="w-full max-w-3xl">
 
+          {/* BACK BUTTON */}
+            <button
+                onClick={() => router.back()}
+                className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white mb-6"
+            >
+                ← Back
+            </button>
+
           {/* TITLE */}
           <div className="mb-12 text-center">
 
