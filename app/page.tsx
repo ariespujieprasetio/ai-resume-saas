@@ -1,163 +1,466 @@
-export const dynamic = "force-dynamic"
-
-import Link from "next/link"
-import { supabaseAdmin } from "@/lib/supabase"
-
-export default async function HomePage() {
-
-  const { data: jobs } = await supabaseAdmin
-    .from("jobs")
-    .select("id, title, created_at")
-    .order("created_at", { ascending: false })
-
-  const { data: candidates } = await supabaseAdmin
-    .from("candidates")
-    .select("overall_score")
-
-  const totalCandidates = candidates?.length ?? 0
-
-  const avgScore =
-    candidates && candidates.length > 0
-      ? Math.round(
-          candidates.reduce(
-            (acc, c) => acc + (c.overall_score ?? 0),
-            0
-          ) / candidates.length
-        )
-      : null
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
+      {/* NAVBAR */}
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur border-b border-neutral-900 bg-black/60">
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-16 relative">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
-        {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 mb-12">
+        {/* Logo */}
+        <div className="font-semibold text-lg">
+          Veritik
+        </div>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400">
+
+          <a href="#features" className="hover:text-white transition">
+            Features
+          </a>
+
+          <a href="#ranking" className="hover:text-white transition">
+            Demo
+          </a>
+
+          <a href="/login" className="hover:text-white transition">
+            Login
+          </a>
+
+        </nav>
+
+        {/* CTA */}
+        <a
+          href="/login"
+          className="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-neutral-200 transition"
+        >
+          Try Demo
+        </a>
+
+      </div>
+
+      </header>
+
+      {/* Background glow */}
+      <div className="absolute inset-0 flex justify-center pointer-events-none">
+        <div className="w-[800px] md:w-[1000px] h-[400px] md:h-[500px] bg-purple-600/20 blur-[140px] rounded-full mt-20"></div>
+      </div>
+
+      {/* HERO */}
+        <section className="relative max-w-6xl mx-auto px-6 pt-32 md:pt-44 pb-20 md:pb-40 text-center">
+
+        {/* Badge */}
+        <div className="mb-6 flex justify-center">
+          <div className="px-4 py-1 rounded-full border border-neutral-800 text-sm text-neutral-400 bg-neutral-900">
+            AI Powered Resume Screening
+          </div>
+        </div>
+
+        <h1 className="font-bold leading-tight tracking-tight">
+
+          <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+            Veritik AI Resume Screening
+          </span>
+
+          <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-neutral-400 mt-3">
+            That Instantly Ranks Candidates
+          </span>
+
+        </h1>
+
+        <p className="mt-6 md:mt-8 text-base md:text-lg text-neutral-400 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
+          Upload hundreds of resumes and let Veritik automatically analyze,
+          score and rank the best candidates in seconds.
+        </p>
+
+        <div className="mt-8 md:mt-12 flex justify-center gap-4 flex-wrap">
+
+          <a
+            href="/login"
+            className="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold hover:bg-neutral-200 transition"
+          >
+            Try Demo
+          </a>
+
+          <a
+            href="#features"
+            className="border border-neutral-700 px-6 md:px-8 py-3 md:py-4 rounded-xl hover:border-white transition"
+          >
+            See Features
+          </a>
+
+        </div>
+
+        </section>
+
+      {/* TRUST SECTION */}
+
+      <section className="py-12 md:py-20 border-y border-neutral-900 bg-neutral-950">
+
+      <div className="max-w-5xl mx-auto px-6 text-center">
+
+        <p className="text-neutral-500 text-sm uppercase tracking-widest">
+          Built for modern hiring teams
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-neutral-300">
 
           <div>
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-linear-to-r from-white to-neutral-400 bg-clip-text text-transparent">
-              Veritik Resume Screening
-            </h1>
-
-            <p className="text-neutral-400 mt-3 max-w-lg text-sm sm:text-base">
-              Automatically analyze and rank candidates using AI based on job requirements.
+            <div className="text-lg font-semibold">
+              ⚡ Screen Hundreds of Resumes
+            </div>
+            <p className="text-neutral-500 text-sm mt-2">
+              Automatically analyze multiple CVs in seconds.
             </p>
           </div>
 
-          <Link
-            href="/create-job"
-            className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:scale-[1.02] transition w-full sm:w-auto text-center"
-          >
-            + Create Job
-          </Link>
-
-        </div>
-
-
-        {/* STATS */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-14">
-
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
-            <p className="text-neutral-400 text-sm">Total Jobs</p>
-            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
-              {jobs?.length ?? 0}
-            </h3>
+          <div>
+            <div className="text-lg font-semibold">
+              🎯 Identify Top Candidates
+            </div>
+            <p className="text-neutral-500 text-sm mt-2">
+              Instantly see the strongest candidates for the role.
+            </p>
           </div>
 
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
-            <p className="text-neutral-400 text-sm">Candidates Screened</p>
-            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
-              {totalCandidates}
-            </h3>
-          </div>
-
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6">
-            <p className="text-neutral-400 text-sm">Average Match Score</p>
-            <h3 className="text-2xl sm:text-3xl font-semibold mt-2">
-              {avgScore !== null ? `${avgScore}%` : "—"}
-            </h3>
-          </div>
-
-        </div>
-
-
-        {/* JOB SECTION */}
-
-        <div className="mt-12">
-
-          <h2 className="text-lg font-semibold mb-4 text-neutral-300">
-            Jobs
-          </h2>
-
-          <div className="grid gap-4">
-
-            {jobs?.map((job) => (
-
-              <Link
-                key={job.id}
-                href={`/jobs/${job.id}`}
-                className="group bg-neutral-900/60 border border-neutral-800 rounded-xl p-5 hover:border-neutral-600 hover:bg-neutral-900 transition"
-              >
-
-                <div className="flex justify-between items-center">
-
-                  <div>
-
-                    <h3 className="text-lg font-semibold group-hover:text-white">
-                      {job.title}
-                    </h3>
-
-                    <p className="text-neutral-500 text-sm mt-1">
-                      AI screening enabled
-                    </p>
-
-                  </div>
-
-                  <div className="text-right">
-
-                    <p className="text-xs text-neutral-500 mb-1">
-                      {new Date(job.created_at).toLocaleDateString()}
-                    </p>
-
-                    <span className="text-neutral-400 group-hover:text-white">
-                      →
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </Link>
-
-            ))}
-
-            {jobs?.length === 0 && (
-
-              <div className="text-neutral-400 border border-neutral-800 rounded-2xl p-8 text-center bg-neutral-900">
-
-                <p className="mb-4">
-                  No jobs created yet
-                </p>
-
-                <Link
-                  href="/create-job"
-                  className="bg-white text-black px-5 py-2 rounded-lg"
-                >
-                  Create your first job
-                </Link>
-
-              </div>
-
-            )}
-
+          <div>
+            <div className="text-lg font-semibold">
+              🤖 AI Hiring Insights
+            </div>
+            <p className="text-neutral-500 text-sm mt-2">
+              Understand why candidates are ranked by Veritik AI.
+            </p>
           </div>
 
         </div>
 
       </div>
+
+      </section>
+
+    {/* PROBLEM */}
+
+    <section className="py-20 md:py-32">
+
+    <div className="max-w-5xl mx-auto px-6 text-center">
+
+      <h2 className="text-2xl md:text-4xl font-semibold">
+        Hiring Shouldn’t Take Hours
+      </h2>
+
+      <p className="text-neutral-400 mt-4 max-w-xl mx-auto">
+        Recruiters often review hundreds of resumes manually.
+        Important candidates get missed and hiring becomes slow.
+      </p>
+
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+
+        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+          <h3 className="font-semibold">Manual Resume Screening</h3>
+          <p className="text-neutral-400 text-sm mt-2">
+            Recruiters spend hours reading CVs one by one.
+          </p>
+        </div>
+
+        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+          <h3 className="font-semibold">Inconsistent Evaluation</h3>
+          <p className="text-neutral-400 text-sm mt-2">
+            Candidates are evaluated differently by each reviewer.
+          </p>
+        </div>
+
+        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+          <h3 className="font-semibold">Top Talent Gets Missed</h3>
+          <p className="text-neutral-400 text-sm mt-2">
+            Great candidates can be overlooked during screening.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    </section>
+
+
+      {/* SCREENSHOT 1 */}
+      <section id="ranking" className="max-w-7xl mx-auto px-4 md:px-6 pb-20 md:pb-40">
+
+        <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 md:mb-16">
+        Instantly Rank Candidates with Veritik AI
+        </h2>
+
+        <div className="relative">
+
+          <div className="absolute inset-0 bg-purple-500/10 blur-3xl"></div>
+
+          <img
+            src="/screenshot/ranking.jpeg"
+            alt="AI candidate ranking"
+            className="relative rounded-xl md:rounded-2xl w-full border border-neutral-800 shadow-2xl"
+          />
+
+        </div>
+
+      </section>
+
+
+      {/* HOW IT WORKS */}
+      <section className="bg-neutral-950 py-20 md:py-40">
+
+        <div className="max-w-6xl mx-auto px-6 text-center">
+
+          <h2 className="text-2xl md:text-4xl font-semibold">
+            How Veritik Works
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-12 md:mt-20">
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Upload CVs
+              </h3>
+
+              <p className="text-neutral-400 mt-3 md:mt-4 text-sm md:text-base">
+                Drag and drop multiple candidate resumes for a job position.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                AI Analysis
+              </h3>
+
+              <p className="text-neutral-400 mt-3 md:mt-4 text-sm md:text-base">
+                AI extracts skills, experience and education from each resume.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Candidate Ranking
+              </h3>
+
+              <p className="text-neutral-400 mt-3 md:mt-4 text-sm md:text-base">
+                Instantly see ranked candidates with match scores.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* BEFORE AFTER */}
+
+      <section className="bg-neutral-950 py-20 md:py-32">
+
+      <div className="max-w-6xl mx-auto px-6">
+
+        <h2 className="text-2xl md:text-4xl font-semibold text-center">
+          From Manual Screening to AI Hiring
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16">
+
+          <div className="bg-neutral-900 p-8 rounded-xl border border-neutral-800">
+            <h3 className="text-lg font-semibold text-red-400">
+              Without Veritik
+            </h3>
+
+            <ul className="mt-4 text-neutral-400 space-y-2 text-sm">
+              <li>• Manually reading hundreds of CVs</li>
+              <li>• Time-consuming candidate comparison</li>
+              <li>• Hard to identify the best applicants</li>
+            </ul>
+          </div>
+
+          <div className="bg-neutral-900 p-8 rounded-xl border border-neutral-800">
+            <h3 className="text-lg font-semibold text-green-400">
+              With Veritik AI
+            </h3>
+
+            <ul className="mt-4 text-neutral-400 space-y-2 text-sm">
+              <li>• Upload resumes once</li>
+              <li>• AI automatically scores candidates</li>
+              <li>• Instantly see ranked top applicants</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      </section>
+
+
+      {/* SCREENSHOT 2 */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-20 md:py-40">
+
+        <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 md:mb-16">
+        Generate Hiring Rubrics with Veritik AI
+        </h2>
+
+        <div className="relative">
+
+          <div className="absolute inset-0 bg-purple-500/10 blur-3xl"></div>
+
+          <img
+            src="/screenshot/create-job.jpeg"
+            alt="Create job"
+            className="relative rounded-xl md:rounded-2xl w-full border border-neutral-800 shadow-2xl"
+          />
+
+        </div>
+
+      </section>
+
+
+      {/* SCREENSHOT 3 */}
+      <section className="bg-neutral-950 py-20 md:py-40">
+
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
+
+          <h2 className="text-2xl md:text-4xl font-semibold mb-8 md:mb-16">
+          Veritik AI Candidate Insights
+          </h2>
+
+          <div className="relative">
+
+            <div className="absolute inset-0 bg-purple-500/10 blur-3xl"></div>
+
+            <img
+              src="/screenshot/ai-insight.jpeg"
+              alt="AI insight"
+              className="relative rounded-xl md:rounded-2xl w-full border border-neutral-800 shadow-2xl"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* FEATURES */}
+      <section id="features" className="py-20 md:py-40">
+
+        <div className="max-w-6xl mx-auto px-6 text-center">
+
+          <h2 className="text-2xl md:text-4xl font-semibold">
+            Powerful AI Hiring Assistant
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-12 md:mt-20 text-left">
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Resume Parsing
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Automatically extract candidate information from resumes.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                AI Candidate Scoring
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Evaluate candidates based on job requirements using AI.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Recruiter Dashboard
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Manage jobs and review ranked candidates easily.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* DEMO FLOW */}
+
+      <section className="py-20 md:py-32">
+
+      <div className="max-w-6xl mx-auto px-6 text-center">
+
+        <h2 className="text-2xl md:text-4xl font-semibold">
+          How Recruiters Use Veritik
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+
+          <div>
+            <div className="text-3xl font-bold text-purple-400">
+              1
+            </div>
+            <p className="mt-4 text-neutral-400 text-sm">
+              Create a job and paste the job description.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-3xl font-bold text-purple-400">
+              2
+            </div>
+            <p className="mt-4 text-neutral-400 text-sm">
+              Upload candidate resumes for analysis.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-3xl font-bold text-purple-400">
+              3
+            </div>
+            <p className="mt-4 text-neutral-400 text-sm">
+              Instantly see AI ranked candidates.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      </section>
+
+
+      {/* CTA */}
+      <section className="py-20 md:py-40 text-center border-t border-neutral-900">
+
+        <h2 className="text-2xl md:text-4xl font-semibold">
+        Start Screening Candidates with Veritik
+        </h2>
+
+        <p className="text-neutral-400 mt-4 text-sm md:text-base">
+          Try the demo and see how AI ranks candidates instantly.
+        </p>
+
+        <a
+          href="/login"
+          className="inline-block mt-8 md:mt-10 bg-white text-black px-6 md:px-10 py-3 md:py-4 rounded-xl font-semibold hover:bg-neutral-200 transition"
+        >
+          Try Demo
+        </a>
+
+      </section>
+
+
+      {/* FOOTER */}
+      <footer className="py-10 md:py-12 text-center text-neutral-500 border-t border-neutral-900">
+
+        © {new Date().getFullYear()} Veritik
+
+      </footer>
+
     </div>
   )
 }
