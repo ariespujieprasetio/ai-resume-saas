@@ -13,14 +13,19 @@ export default function LandingPage() {
         "Veritik uses AI to analyze resumes based on the job description you provide. The system evaluates candidate skills, experience, and education to generate a match score."
     },
     {
+      question: "Can I compare candidates side-by-side?",
+      answer:
+        "Yes. Veritik allows recruiters to select multiple candidates and instantly compare them using AI insights, skills analysis and experience summaries."
+    },
+    {
+      question: "Can I contact candidates directly?",
+      answer:
+        "Yes. Recruiters can reach out to candidates directly from the ranked list, helping speed up the hiring process without switching tools."
+    },
+    {
       question: "What file formats does Veritik support?",
       answer:
         "Currently Veritik supports PDF resumes. You can upload multiple CVs and the system will analyze them automatically."
-    },
-    {
-      question: "Can Veritik generate interview questions?",
-      answer:
-        "Yes. Veritik can automatically generate interview questions tailored to each candidate based on their background and the job role."
     },
     {
       question: "Is candidate data secure?",
@@ -88,7 +93,7 @@ export default function LandingPage() {
         {/* Badge */}
         <div className="mb-6 flex justify-center">
           <div className="px-4 py-1 rounded-full border border-neutral-800 text-sm text-neutral-400 bg-neutral-900">
-            AI Powered Resume Screening
+          AI Candidate Ranking & Comparison
           </div>
         </div>
 
@@ -99,14 +104,14 @@ export default function LandingPage() {
           </span>
 
           <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-neutral-400 mt-3">
-            That Instantly Ranks Candidates
+          Rank, Compare, and Hire the Best Candidates Faster
           </span>
 
         </h1>
 
         <p className="mt-6 md:mt-8 text-base md:text-lg text-neutral-400 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
-          Upload hundreds of resumes and let Veritik automatically analyze,
-          score and rank the best candidates in seconds.
+        Upload resumes and let Veritik instantly analyze, rank,
+        compare top candidates, and help you reach out to the best ones faster.
         </p>
 
         <div className="mt-8 md:mt-12 flex justify-center gap-4 flex-wrap">
@@ -139,32 +144,32 @@ export default function LandingPage() {
           Built for modern hiring teams
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-neutral-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 text-neutral-300">
 
           <div>
             <div className="text-lg font-semibold">
               ⚡ Screen Hundreds of Resumes
             </div>
             <p className="text-neutral-500 text-sm mt-2">
-              Automatically analyze multiple CVs in seconds.
+              Upload multiple CVs and let Veritik analyze and rank candidates instantly.
             </p>
           </div>
 
           <div>
             <div className="text-lg font-semibold">
-              🎯 Identify Top Candidates
+              🔍 Compare Top Candidates
             </div>
             <p className="text-neutral-500 text-sm mt-2">
-              Instantly see the strongest candidates for the role.
+              Instantly compare the strongest applicants side-by-side with AI insights.
             </p>
           </div>
 
           <div>
             <div className="text-lg font-semibold">
-              🤖 AI Hiring Insights
+              ✉️ Contact Candidates Faster
             </div>
             <p className="text-neutral-500 text-sm mt-2">
-              Understand why candidates are ranked by Veritik AI.
+              Reach out to candidates directly from the ranked list without switching tools.
             </p>
           </div>
 
@@ -223,7 +228,7 @@ export default function LandingPage() {
       <section id="ranking" className="max-w-7xl mx-auto px-4 md:px-6 pb-20 md:pb-40">
 
         <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 md:mb-16">
-        Instantly Rank Candidates with Veritik AI
+        Instantly Rank Candidates Based on Job Requirements
         </h2>
 
         <div className="relative">
@@ -240,6 +245,32 @@ export default function LandingPage() {
 
       </section>
 
+      {/* SCREENSHOT COMPARE */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-20 md:py-40">
+
+      <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 md:mb-16">
+        Compare Top Candidates Instantly
+      </h2>
+
+      <p className="text-neutral-400 text-center max-w-2xl mx-auto mb-12">
+        Select multiple candidates and let Veritik generate AI insights
+        to compare skills, experience and strengths side-by-side.
+      </p>
+
+      <div className="relative">
+
+        <div className="absolute inset-0 bg-purple-500/10 blur-3xl"></div>
+
+        <img
+          src="/screenshot/compare.jpeg"
+          alt="Compare candidates"
+          className="relative rounded-xl md:rounded-2xl w-full border border-neutral-800 shadow-2xl"
+        />
+
+      </div>
+
+      </section>
+
 
       {/* HOW IT WORKS */}
       <section className="bg-neutral-950 py-20 md:py-40">
@@ -252,7 +283,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-12 md:mt-20">
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
                 Upload CVs
               </h3>
@@ -262,7 +293,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
                 AI Analysis
               </h3>
@@ -272,7 +303,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
                 Candidate Ranking
               </h3>
@@ -388,9 +419,9 @@ export default function LandingPage() {
             Powerful AI Hiring Assistant
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-12 md:mt-20 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12 mt-12 md:mt-20 text-left">
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
                 Resume Parsing
               </h3>
@@ -399,7 +430,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
                 AI Candidate Scoring
               </h3>
@@ -408,12 +439,39 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800">
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
               <h3 className="text-lg md:text-xl font-semibold">
-                Recruiter Dashboard
+                Candidate Ranking
               </h3>
               <p className="text-neutral-400 mt-3 text-sm md:text-base">
-                Manage jobs and review ranked candidates easily.
+                Instantly see the best candidates ranked by match score.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Compare Candidates
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Compare top candidates side-by-side with AI insights and scoring.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
+              <h3 className="text-lg md:text-xl font-semibold">
+                Contact Candidates
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Reach out to candidates directly from the ranked list.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900 p-6 md:p-8 rounded-xl border border-neutral-800 hover:border-white hover:translate-y-[-2px] transition">
+              <h3 className="text-lg md:text-xl font-semibold">
+                AI Candidate Insights
+              </h3>
+              <p className="text-neutral-400 mt-3 text-sm md:text-base">
+                Understand why candidates are ranked by Veritik AI.
               </p>
             </div>
 
@@ -458,7 +516,7 @@ export default function LandingPage() {
               3
             </div>
             <p className="mt-4 text-neutral-400 text-sm">
-              Instantly see AI ranked candidates.
+              Instantly see ranked candidates and compare top applicants with AI insights.
             </p>
           </div>
 
@@ -526,11 +584,12 @@ export default function LandingPage() {
       <section className="py-20 md:py-40 text-center border-t border-neutral-900">
 
         <h2 className="text-2xl md:text-4xl font-semibold">
-        Start Screening Candidates with Veritik
+        Find the Best Candidate Faster with Veritik
         </h2>
 
         <p className="text-neutral-400 mt-4 text-sm md:text-base">
-          Try the demo and see how AI ranks candidates instantly.
+        Try the demo and see how Veritik ranks, compares,
+        and helps you identify the best candidates instantly.
         </p>
 
         <a
