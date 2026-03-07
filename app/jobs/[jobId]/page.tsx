@@ -264,16 +264,23 @@ export default function JobDetailPage() {
 
             <div className="flex items-center gap-3">
 
-              <div className="text-sm text-neutral-400">
-                {candidates.length} Candidates
-              </div>
+            <div className="text-sm text-neutral-400">
+              {candidates.length} Candidates
+            </div>
 
-              <button
-                onClick={exportExcel}
-                className="bg-neutral-800 border border-neutral-700 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700 transition"
-              >
-                Export Excel
-              </button>
+            <button
+              onClick={() => router.push(`/jobs/${jobId}/compare`)}
+              className="bg-purple-600 px-4 py-2 rounded-lg text-sm hover:bg-purple-500"
+            >
+              Compare Candidates
+            </button>
+
+            <button
+              onClick={exportExcel}
+              className="bg-neutral-800 border border-neutral-700 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700 transition"
+            >
+              Export Excel
+            </button>
 
             </div>
 
@@ -427,29 +434,33 @@ export default function JobDetailPage() {
 
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
 
-                    <div>
+                <div>
 
-                      <div className="text-sm text-neutral-500 flex items-center gap-2">
-                        {medal} Rank #{index + 1}
-                      </div>
-
-                      <div className="text-lg font-semibold">
-                        {c.name}
-                      </div>
-
-                    </div>
-
-                    <div className={`text-xl font-bold px-4 py-2 rounded-xl ${
-                      c.overall_score >= 85
-                        ? "bg-green-500/20 text-green-400"
-                        : c.overall_score >= 70
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : "bg-red-500/20 text-red-400"
-                    }`}>
-                      {c.overall_score}
-                    </div>
-
+                  <div className="text-sm text-neutral-500 flex items-center gap-2">
+                    {medal} Rank #{index + 1}
                   </div>
+
+                  <div className="text-lg font-semibold">
+                    {c.name}
+                  </div>
+
+                </div>
+
+                <div className="flex items-center gap-2">
+
+                  <div className={`text-xl font-bold px-4 py-2 rounded-xl ${
+                    c.overall_score >= 85
+                      ? "bg-green-500/20 text-green-400"
+                      : c.overall_score >= 70
+                      ? "bg-yellow-500/20 text-yellow-400"
+                      : "bg-red-500/20 text-red-400"
+                  }`}>
+                    {c.overall_score}
+                  </div>
+
+                </div>
+
+                </div>
 
 
                   {/* SCORE BAR */}
@@ -632,6 +643,7 @@ export default function JobDetailPage() {
           </div>
 
         )}
+
 
       </div>
 
