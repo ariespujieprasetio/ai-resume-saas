@@ -59,6 +59,7 @@ export default function JobDetailPage() {
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null)
   const [questions, setQuestions] = useState("")
   const [loadingQuestions, setLoadingQuestions] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   async function copyQuestions() {
 
@@ -68,7 +69,11 @@ export default function JobDetailPage() {
   
       await navigator.clipboard.writeText(questions)
   
-      alert("Interview questions copied!")
+      setCopied(true)
+  
+      setTimeout(() => {
+        setCopied(false)
+      }, 2000)
   
     } catch (err) {
   
@@ -542,9 +547,9 @@ export default function JobDetailPage() {
 
                 <button
                   onClick={copyQuestions}
-                  className="bg-neutral-800 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700"
+                  className="bg-neutral-800 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700 transition"
                 >
-                  Copy Questions
+                  {copied ? "Copied ✓" : "Copy Questions"}
                 </button>
 
               </div>
