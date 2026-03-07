@@ -70,6 +70,10 @@ export default function JobDetailPage() {
     setLoading(false)
   }
 
+  function exportExcel() {
+    window.open(`/api/export-candidates?jobId=${jobId}`)
+  }
+
   useEffect(() => {
     fetchCandidates()
   }, [jobId])
@@ -169,17 +173,28 @@ export default function JobDetailPage() {
             ← Back
           </button>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
             <h1 className="text-2xl sm:text-3xl font-semibold">
               Candidate Ranking
             </h1>
 
-            <div className="text-sm text-neutral-400">
-              {candidates.length} Candidates
+            <div className="flex items-center gap-3">
+
+              <div className="text-sm text-neutral-400">
+                {candidates.length} Candidates
+              </div>
+
+              <button
+                onClick={exportExcel}
+                className="bg-neutral-800 border border-neutral-700 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700 transition"
+              >
+                Export Excel
+              </button>
+
             </div>
 
-          </div>
+            </div>
 
         </div>
 
