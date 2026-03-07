@@ -43,6 +43,19 @@ export default function CreateJobPage() {
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
 
+      {/* LOGO TOP LEFT */}
+      <div className="absolute top-6 left-8 flex items-center gap-2 font-semibold text-lg">
+
+      <img
+        src="/logo/logo-veritik.jpeg"
+        alt="Veritik"
+        className="w-9 h-9 rounded-md object-contain"
+      />
+
+      Veritik
+
+      </div>
+
       {/* SAME BACKGROUND AS OTHER PAGES */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
 

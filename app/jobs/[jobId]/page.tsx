@@ -239,30 +239,56 @@ export default function JobDetailPage() {
 
   return (
 
-    <div className="min-h-screen bg-neutral-950 text-white">
+      <div className="min-h-screen bg-neutral-950 text-white relative">
+
+      {/* LOGO TOP LEFT */}
+      <div className="absolute top-6 left-8 flex items-center gap-2 font-semibold text-lg z-10">
+
+        <img
+          src="/logo/logo-veritik.jpeg"
+          alt="Veritik"
+          className="w-9 h-9 rounded-md object-contain"
+        />
+
+        Veritik
+
+      </div>
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-16 relative">
 
-        {/* HEADER */}
+      {/* HEADER */}
 
-        <div className="mb-10">
+      <div className="mb-10">
 
-          <button
-            onClick={() => router.back()}
-            className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white mb-3"
-          >
-            ← Back
-          </button>
+        {/* TOP BAR */}
+        <div className="flex items-center justify-between mb-4">
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          {/* LEFT SIDE */}
+          <div className="flex items-center gap-4">
 
-            <h1 className="text-2xl sm:text-3xl font-semibold">
-              Candidate Ranking
-            </h1>
+            {/* BACK BUTTON */}
+            <button
+              onClick={() => router.back()}
+              className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white"
+            >
+              ← Back
+            </button>
 
-            <div className="flex items-center gap-3">
+          </div>
+
+        </div>
+
+
+        {/* PAGE TITLE + ACTIONS */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+          <h1 className="text-2xl sm:text-3xl font-semibold">
+            Candidate Ranking
+          </h1>
+
+          <div className="flex items-center gap-3">
 
             <div className="text-sm text-neutral-400">
               {candidates.length} Candidates
@@ -282,11 +308,11 @@ export default function JobDetailPage() {
               Export Excel
             </button>
 
-            </div>
-
-            </div>
+          </div>
 
         </div>
+
+      </div>
 
 
         {/* INSIGHTS */}

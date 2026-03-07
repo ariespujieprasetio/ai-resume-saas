@@ -43,8 +43,16 @@ export default function LandingPage() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* Logo */}
-        <div className="font-semibold text-lg">
-          Veritik
+        <div className="flex items-center gap-2 font-semibold text-lg">
+
+        <img
+          src="/logo/logo-veritik.jpeg"
+          alt="Veritik"
+className="w-10 h-10"
+        />
+
+        Veritik
+
         </div>
 
         {/* Navigation */}

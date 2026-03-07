@@ -52,6 +52,20 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white relative overflow-hidden">
 
+      {/* LOGO TOP LEFT */}
+      <div
+        onClick={() => router.push("/")}
+        className="absolute top-6 left-8 flex items-center gap-2 font-semibold text-lg cursor-pointer hover:opacity-80 transition"
+      >
+        <img
+          src="/logo/logo-veritik.jpeg"
+          alt="Veritik"
+          className="w-9 h-9 rounded-md object-contain"
+        />
+
+        Veritik
+      </div>
+
       {/* Background glow */}
       <div className="absolute inset-0 flex justify-center pointer-events-none">
         <div className="w-[700px] md:w-[900px] h-[350px] md:h-[450px] bg-purple-600/20 blur-[140px] rounded-full mt-20"></div>

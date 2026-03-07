@@ -30,13 +30,30 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-neutral-950 text-white relative">
 
+      {/* LOGO TOP LEFT */}
+      <div className="absolute top-6 left-8 flex items-center gap-2 font-semibold text-lg z-10">
+
+      <img
+        src="/logo/logo-veritik.jpeg"
+        alt="Veritik"
+        className="w-9 h-9 rounded-md object-contain"
+      />
+
+      Veritik
+
+      </div>
+
       {/* Background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-12 sm:py-16 relative">
 
-        {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-8 mb-14">
+      {/* HEADER */}
+      <div className="mb-14">
+
+
+        {/* MAIN HEADER */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-8">
 
           <div>
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-gradient-to-r from-white to-neutral-400 bg-clip-text text-transparent">
@@ -63,6 +80,8 @@ export default async function HomePage() {
           </div>
 
         </div>
+
+      </div>
 
 
         {/* STATS */}
