@@ -41,6 +41,7 @@ function getAIRecommendation(score: number) {
   return { label: "Not Recommended", icon: "❌", confidence: "Low", color: "text-red-400" }
 }
 
+
 export default function JobDetailPage() {
 
   const params = useParams()
@@ -58,6 +59,24 @@ export default function JobDetailPage() {
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null)
   const [questions, setQuestions] = useState("")
   const [loadingQuestions, setLoadingQuestions] = useState(false)
+
+  async function copyQuestions() {
+
+    if (!questions) return
+  
+    try {
+  
+      await navigator.clipboard.writeText(questions)
+  
+      alert("Interview questions copied!")
+  
+    } catch (err) {
+  
+      console.error(err)
+  
+    }
+  
+  }
 
   async function fetchCandidates() {
     if (!jobId) return
@@ -514,9 +533,22 @@ export default function JobDetailPage() {
               )}
 
               {questions && (
+
+              <div className="space-y-3">
+
                 <div className="bg-neutral-800 p-4 rounded-lg text-sm whitespace-pre-line">
                   {questions}
                 </div>
+
+                <button
+                  onClick={copyQuestions}
+                  className="bg-neutral-800 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700"
+                >
+                  Copy Questions
+                </button>
+
+              </div>
+
               )}
 
               </div>
