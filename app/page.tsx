@@ -1,4 +1,34 @@
+"use client"
+
+import { useState } from "react"
+
 export default function LandingPage() {
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const faqs = [
+    {
+      question: "How does Veritik analyze resumes?",
+      answer:
+        "Veritik uses AI to analyze resumes based on the job description you provide. The system evaluates candidate skills, experience, and education to generate a match score."
+    },
+    {
+      question: "What file formats does Veritik support?",
+      answer:
+        "Currently Veritik supports PDF resumes. You can upload multiple CVs and the system will analyze them automatically."
+    },
+    {
+      question: "Can Veritik generate interview questions?",
+      answer:
+        "Yes. Veritik can automatically generate interview questions tailored to each candidate based on their background and the job role."
+    },
+    {
+      question: "Is candidate data secure?",
+      answer:
+        "Yes. Veritik processes resumes securely and does not share candidate data with third parties."
+    }
+  ]
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
@@ -15,19 +45,25 @@ export default function LandingPage() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400">
 
-          <a href="#features" className="hover:text-white transition">
-            Features
-          </a>
+        <a href="#features" className="hover:text-white transition">
+          Features
+        </a>
 
-          <a href="#ranking" className="hover:text-white transition">
-            Demo
-          </a>
+        <a href="#ranking" className="hover:text-white transition">
+          Demo
+        </a>
 
-          <a href="/login" className="hover:text-white transition">
-            Login
-          </a>
+        <a href="#faq" className="hover:text-white transition">
+          FAQ
+        </a>
+
+        <a href="/login" className="hover:text-white transition">
+          Login
+        </a>
 
         </nav>
+
+        
 
         {/* CTA */}
         <a
@@ -425,6 +461,59 @@ export default function LandingPage() {
               Instantly see AI ranked candidates.
             </p>
           </div>
+
+        </div>
+
+      </div>
+
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="bg-neutral-950 py-20 md:py-40">
+
+      <div className="max-w-4xl mx-auto px-6">
+
+        <h2 className="text-2xl md:text-4xl font-semibold text-center mb-12">
+          Frequently Asked Questions
+        </h2>
+
+        <div className="space-y-4">
+
+          {faqs.map((faq, index) => (
+
+            <div
+              key={index}
+              className="bg-neutral-900 border border-neutral-800 rounded-xl"
+            >
+
+              <button
+                onClick={() =>
+                  setOpenIndex(openIndex === index ? null : index)
+                }
+                className="w-full flex justify-between items-center p-6 text-left"
+              >
+
+                <span className="font-medium">
+                  {faq.question}
+                </span>
+
+                <span className="text-xl text-neutral-400">
+                  {openIndex === index ? "−" : "+"}
+                </span>
+
+              </button>
+
+              {openIndex === index && (
+
+                <div className="px-6 pb-6 text-neutral-400 text-sm leading-relaxed">
+                  {faq.answer}
+                </div>
+
+              )}
+
+            </div>
+
+          ))}
 
         </div>
 
