@@ -10,28 +10,43 @@ export default function LoginPage() {
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const [error,setError] = useState("")
+  const [loading,setLoading] = useState(false)
 
   const handleLogin = async (e:any) => {
 
     e.preventDefault()
 
-    const res = await fetch("/api/login",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
+    setError("")
+    setLoading(true)
 
-    if(!res.ok){
-      setError("Email atau password salah")
-      return
+    try {
+
+      const res = await fetch("/api/login",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+
+      if(!res.ok){
+        setError("Email atau password salah")
+        setLoading(false)
+        return
+      }
+
+      router.push("/dashboard")
+
+    } catch (err) {
+
+      setError("Something went wrong")
+
     }
 
-    router.push("/dashboard")
+    setLoading(false)
   }
 
   return (
@@ -46,7 +61,7 @@ export default function LoginPage() {
       <form
         onSubmit={handleLogin}
         className="relative bg-neutral-900/80 backdrop-blur border border-neutral-800 p-8 md:p-10 rounded-2xl w-full max-w-sm mx-6"
-        >
+      >
 
         {/* Logo */}
         <div className="text-center mb-8">
@@ -68,7 +83,8 @@ export default function LoginPage() {
           placeholder="Email address"
           value={email}
           onChange={(e)=>setEmail(e.target.value)}
-          className="w-full p-3 mb-4 bg-neutral-800 border border-neutral-700 rounded-lg outline-none focus:border-purple-500 transition"
+          disabled={loading}
+          className="w-full p-3 mb-4 bg-neutral-800 border border-neutral-700 rounded-lg outline-none focus:border-purple-500 transition disabled:opacity-50"
         />
 
         {/* Password */}
@@ -77,7 +93,8 @@ export default function LoginPage() {
           type="password"
           value={password}
           onChange={(e)=>setPassword(e.target.value)}
-          className="w-full p-3 mb-2 bg-neutral-800 border border-neutral-700 rounded-lg outline-none focus:border-purple-500 transition"
+          disabled={loading}
+          className="w-full p-3 mb-2 bg-neutral-800 border border-neutral-700 rounded-lg outline-none focus:border-purple-500 transition disabled:opacity-50"
         />
 
         {/* Error message */}
@@ -89,10 +106,17 @@ export default function LoginPage() {
 
         {/* Login Button */}
         <button
-        type="submit"
-          className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-neutral-200 transition"
+          type="submit"
+          disabled={loading}
+          className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-neutral-200 transition flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Login
+
+          {loading && (
+            <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+          )}
+
+          {loading ? "Signing in..." : "Login"}
+
         </button>
 
         {/* Demo hint */}
@@ -100,7 +124,7 @@ export default function LoginPage() {
           Demo access available for recruiters
         </p>
 
-        </form>
+      </form>
 
     </div>
   )

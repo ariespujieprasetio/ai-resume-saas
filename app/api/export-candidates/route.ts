@@ -7,14 +7,12 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const jobId = searchParams.get("jobId")
 
-  // ambil job
   const { data: job } = await supabaseAdmin
     .from("jobs")
     .select("title")
     .eq("id", jobId)
     .single()
 
-  // ambil candidates
   const { data: candidates } = await supabaseAdmin
     .from("candidates")
     .select(`
@@ -44,32 +42,48 @@ export async function GET(req: Request) {
     return "Low"
   }
 
-  const rows = candidates.map((c,index)=>({
+  const rows = candidates.map((c,index)=>{
 
-    Rank:index+1,
-
-    Candidate:c.name,
-
-    Score:c.overall_score,
-
-    Skills:c.breakdown_json?.skills_score ?? "",
-
-    Experience:c.breakdown_json?.experience_score ?? "",
-
-    Education:c.breakdown_json?.education_score ?? "",
-
-    Decision:
-      c.overall_score>=85
-      ?"Recommended"
-      :c.overall_score>=70
-      ?"Potential Fit"
-      :"Not Recommended",
-
-    Confidence:confidence(c.overall_score),
-
-    "Veritik Summary":c.breakdown_json?.summary ?? ""
-
-  }))
+    const gaps = [
+  
+      c.breakdown_json?.skills_score < 80 ? "Skills mismatch" : null,
+  
+      c.breakdown_json?.experience_score < 80 ? "Experience gap" : null,
+  
+      c.breakdown_json?.education_score < 80 ? "Education gap" : null
+  
+    ].filter(Boolean)
+  
+    return {
+  
+      Rank:index+1,
+  
+      Candidate:c.name,
+  
+      Score:c.overall_score,
+  
+      Skills:c.breakdown_json?.skills_score ?? "",
+  
+      Experience:c.breakdown_json?.experience_score ?? "",
+  
+      Education:c.breakdown_json?.education_score ?? "",
+  
+      Decision:
+        c.overall_score>=85
+        ?"Recommended"
+        :c.overall_score>=70
+        ?"Potential Fit"
+        :"Not Recommended",
+  
+      Confidence:confidence(c.overall_score),
+  
+      "Skill Gap": gaps.length > 0 ? gaps.join(", ") : "Strong overall fit",
+  
+      "Veritik Summary":c.breakdown_json?.summary ?? ""
+  
+    }
+  
+  })
 
   const insightRows = [
 
@@ -89,8 +103,39 @@ export async function GET(req: Request) {
 
   ]
 
-  const sheet1 = XLSX.utils.json_to_sheet(rows)
+  const header = [
+    ["Veritik AI Hiring Report"],
+    [],
+    ["Job", job?.title],
+    ["Generated", new Date().toLocaleDateString()],
+    [],
+  ]
+
+  const sheet1 = XLSX.utils.aoa_to_sheet(header)
+
+  XLSX.utils.sheet_add_json(sheet1, rows, {
+    origin: "A6"
+  })
+
+  sheet1["!cols"] = [
+    { wch: 6 },
+    { wch: 30 },
+    { wch: 10 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 18 },
+    { wch: 12 },
+    { wch: 30 },  
+    { wch: 70 }    
+  ]
+
   const sheet2 = XLSX.utils.json_to_sheet(insightRows)
+
+  sheet2["!cols"] = [
+    { wch: 25 },
+    { wch: 25 }
+  ]
 
   const workbook = XLSX.utils.book_new()
 
