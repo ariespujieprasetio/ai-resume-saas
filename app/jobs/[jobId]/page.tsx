@@ -56,6 +56,8 @@ export default function JobDetailPage() {
   const [sort, setSort] = useState("score")
 
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null)
+  const [questions, setQuestions] = useState("")
+  const [loadingQuestions, setLoadingQuestions] = useState(false)
 
   async function fetchCandidates() {
     if (!jobId) return
@@ -72,6 +74,38 @@ export default function JobDetailPage() {
 
   function exportExcel() {
     window.open(`/api/export-candidates?jobId=${jobId}`)
+  }
+
+  async function generateQuestions(candidate: Candidate) {
+
+    setLoadingQuestions(true)
+    setQuestions("")
+  
+    try {
+  
+      const res = await fetch("/api/generate-interview-questions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          candidateName: candidate.name,
+          summary: candidate.breakdown_json?.summary
+        })
+      })
+  
+      const data = await res.json()
+  
+      setQuestions(data.questions)
+  
+    } catch (err) {
+  
+      console.error(err)
+  
+    }
+  
+    setLoadingQuestions(false)
+  
   }
 
   useEffect(() => {
@@ -449,7 +483,10 @@ export default function JobDetailPage() {
                 </h2>
 
                 <button
-                  onClick={()=>setSelectedCandidate(null)}
+                  onClick={()=>{
+                    setSelectedCandidate(null)
+                    setQuestions("")
+                  }}
                   className="text-neutral-400 hover:text-white"
                 >
                   ✕
@@ -457,9 +494,32 @@ export default function JobDetailPage() {
 
               </div>
 
+              <div className="space-y-4">
+
               <p className="text-neutral-300">
                 {selectedCandidate.breakdown_json?.summary}
               </p>
+
+              <button
+                onClick={() => generateQuestions(selectedCandidate)}
+                className="bg-neutral-800 px-4 py-2 rounded-lg text-sm hover:bg-neutral-700"
+              >
+                Generate Interview Questions
+              </button>
+
+              {loadingQuestions && (
+                <p className="text-sm text-neutral-400">
+                  Generating questions...
+                </p>
+              )}
+
+              {questions && (
+                <div className="bg-neutral-800 p-4 rounded-lg text-sm whitespace-pre-line">
+                  {questions}
+                </div>
+              )}
+
+              </div>
 
             </div>
 
