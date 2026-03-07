@@ -512,6 +512,10 @@ export default function JobDetailPage() {
 
                   <div className="flex gap-3 mt-4">
 
+                  <div className="text-xs text-neutral-500 mt-4 mb-2">
+                    Contact Candidate
+                  </div>
+
                     {email && (
                       <a
                       href={`mailto:${email}`}
