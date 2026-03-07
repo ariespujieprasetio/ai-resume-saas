@@ -9,6 +9,7 @@ type Candidate = {
   name: string
   overall_score: number
   breakdown_json: any
+  parsed_text?: string
 }
 
 function ScoreBar({ label, score }: { label: string; score: number }) {
@@ -27,6 +28,30 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
       </div>
     </div>
   )
+}
+
+function extractEmail(text: string) {
+  const match = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)
+  return match ? match[0] : null
+}
+
+function extractPhone(text: string) {
+  const match = text.match(/(\+62|62|0)8[1-9][0-9]{6,10}/)
+
+  if (!match) return null
+
+  let phone = match[0]
+
+  if (phone.startsWith("0")) {
+    phone = phone.replace(/^0/, "62")
+  }
+
+  return phone
+}
+
+function extractLinkedin(text: string) {
+  const match = text.match(/(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9\-_%]+/i)
+  return match ? match[0] : null
 }
 
 function getAIRecommendation(score: number) {
@@ -381,6 +406,10 @@ export default function JobDetailPage() {
 
             {visibleCandidates.map((c,index)=>{
 
+              const email = extractEmail(c.parsed_text || "")
+              const phone = extractPhone(c.parsed_text || "")
+              const linkedin = extractLinkedin(c.parsed_text || "")
+
               const medal =
                 index === 0 ? "🥇" :
                 index === 1 ? "🥈" :
@@ -480,6 +509,42 @@ export default function JobDetailPage() {
                   <p className="text-neutral-400 leading-relaxed">
                     {c.breakdown_json?.summary}
                   </p>
+
+                  <div className="flex gap-3 mt-4">
+
+                    {email && (
+                      <a
+                      href={`mailto:${email}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700"
+                    >
+                      📧 Email
+                    </a>
+                    )}
+
+                    {phone && (
+                      <a
+                      href={`https://wa.me/${phone}`}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                      className="px-3 py-2 text-sm bg-green-600 rounded-lg hover:bg-green-500"
+                    >
+                      💬 WhatsApp
+                    </a>
+                    )}
+
+                    {linkedin && (
+                      <a
+                        href={linkedin.startsWith("http") ? linkedin : `https://${linkedin}`}
+                        target="_blank"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-3 py-2 text-sm bg-blue-600 rounded-lg hover:bg-blue-500"
+                      >
+                        🔗 LinkedIn
+                      </a>
+                    )}
+
+                  </div>
 
                 </div>
 
