@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 export default function LandingPage() {
 
@@ -33,6 +34,17 @@ export default function LandingPage() {
         "Yes. Veritik processes resumes securely and does not share candidate data with third parties."
     }
   ]
+
+  const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7
+    }
+  }
+}
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -96,7 +108,12 @@ className="w-10 h-10"
       </div>
 
       {/* HERO */}
-        <section className="relative max-w-6xl mx-auto px-6 pt-32 md:pt-44 pb-20 md:pb-40 text-center">
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        className="relative max-w-6xl mx-auto px-6 pt-32 md:pt-44 pb-20 md:pb-40 text-center"
+      >
 
         {/* Badge */}
         <div className="mb-6 flex justify-center">
@@ -105,7 +122,12 @@ className="w-10 h-10"
           </div>
         </div>
 
-        <h1 className="font-bold leading-tight tracking-tight">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="font-bold leading-tight tracking-tight"
+        >
 
           <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
             Veritik AI Resume Screening
@@ -115,14 +137,19 @@ className="w-10 h-10"
           Rank, Compare, and Hire the Best Candidates Faster
           </span>
 
-        </h1>
+        </motion.h1>
 
         <p className="mt-6 md:mt-8 text-base md:text-lg text-neutral-400 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
         Upload resumes and let Veritik instantly analyze, rank,
         compare top candidates, and help you reach out to the best ones faster.
         </p>
 
-        <div className="mt-8 md:mt-12 flex justify-center gap-4 flex-wrap">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 md:mt-12 flex justify-center gap-4 flex-wrap"
+        >
 
           <a
             href="/login"
@@ -138,9 +165,9 @@ className="w-10 h-10"
             See Features
           </a>
 
-        </div>
+        </motion.div>
 
-        </section>
+      </motion.section>
 
       {/* TRUST SECTION */}
 
@@ -204,26 +231,38 @@ className="w-10 h-10"
 
       <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
 
-        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ duration: 0.2 }}
+          className="bg-neutral-900 p-6 rounded-xl border border-neutral-800"
+        >
           <h3 className="font-semibold">Manual Resume Screening</h3>
           <p className="text-neutral-400 text-sm mt-2">
             Recruiters spend hours reading CVs one by one.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ duration: 0.2 }}
+          className="bg-neutral-900 p-6 rounded-xl border border-neutral-800"
+        >
           <h3 className="font-semibold">Inconsistent Evaluation</h3>
           <p className="text-neutral-400 text-sm mt-2">
             Candidates are evaluated differently by each reviewer.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-neutral-900 p-6 rounded-xl border border-neutral-800">
+        <motion.div
+          whileHover={{ y: -6 }}
+          transition={{ duration: 0.2 }}
+          className="bg-neutral-900 p-6 rounded-xl border border-neutral-800"
+        >
           <h3 className="font-semibold">Top Talent Gets Missed</h3>
           <p className="text-neutral-400 text-sm mt-2">
             Great candidates can be overlooked during screening.
           </p>
-        </div>
+        </motion.div>
 
       </div>
 
@@ -243,10 +282,12 @@ className="w-10 h-10"
 
           <div className="absolute inset-0 bg-purple-500/10 blur-3xl"></div>
 
-          <img
-            src="/screenshot/ranking.jpeg"
-            alt="AI candidate ranking"
-            className="relative rounded-xl md:rounded-2xl w-full border border-neutral-800 shadow-2xl"
+        <motion.img
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          src="/screenshot/ranking.jpeg"
+          alt="AI candidate ranking"
           />
 
         </div>
@@ -569,11 +610,15 @@ className="w-10 h-10"
 
               </button>
 
-              {openIndex === index && (
-
-                <div className="px-6 pb-6 text-neutral-400 text-sm leading-relaxed">
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{ duration: 0.3 }}
+                    className="px-6 pb-6 text-neutral-400 text-sm leading-relaxed"
+                  >
                   {faq.answer}
-                </div>
+                </motion.div>
 
               )}
 
@@ -589,7 +634,12 @@ className="w-10 h-10"
 
 
       {/* CTA */}
-      <section className="py-20 md:py-40 text-center border-t border-neutral-900">
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="py-20 md:py-40 text-center border-t border-neutral-900"
+        >
 
         <h2 className="text-2xl md:text-4xl font-semibold">
         Find the Best Candidate Faster with Veritik
@@ -607,7 +657,7 @@ className="w-10 h-10"
           Try Demo
         </a>
 
-      </section>
+      </motion.section>
 
 
       {/* FOOTER */}
