@@ -70,7 +70,7 @@ export default function CreateJobPage() {
 
       {/* AI GLOW */}
       <div className="absolute inset-0 flex justify-center pointer-events-none">
-        <div className="w-[900px] h-[500px] bg-blue-500/10 blur-[140px] rounded-full mt-20"></div>
+        <div className="w-225 h-125 bg-blue-500/10 blur-[140px] rounded-full mt-20"></div>
       </div>
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(80,80,255,0.15),transparent_60%)] pointer-events-none" />

@@ -90,7 +90,7 @@ export default function LandingPage() {
 
       {/* HERO */}
 
-      <section className="max-w-7xl mx-auto px-6 pt-32 pb-32 grid md:grid-cols-2 gap-16 items-center">
+      <section className="max-w-7xl mx-auto px-6 pt-28 md:pt-32 pb-20 md:pb-32 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* LEFT */}
 
         <div>
@@ -98,7 +98,7 @@ export default function LandingPage() {
             AI Hiring Intelligence Platform
           </div>
 
-          <h1 className="mt-6 text-6xl font-extrabold leading-tight tracking-tight">
+          <h1 className="mt-6 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
             Hire Smarter.
             <br />
             Place <span className="text-blue-600">Faster.</span>
@@ -111,7 +111,7 @@ export default function LandingPage() {
             recruitment teams focus on relationships, not spreadsheets.
           </p>
 
-          <div className="flex gap-4 mt-8">
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <a
               href="/login"
               className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium shadow"
@@ -129,7 +129,7 @@ export default function LandingPage() {
 
           {/* STATS CARD */}
 
-          <div className="mt-10 flex bg-white border rounded-xl shadow divide-x">
+          <div className="mt-10 flex flex-col sm:flex-row bg-white border rounded-xl shadow sm:divide-x">
             <div className="px-6 py-4 text-center">
               <div className="font-bold text-lg">100+</div>
               <div className="text-xs text-neutral-500">CVs per batch</div>
@@ -217,7 +217,7 @@ export default function LandingPage() {
 
           {/* RIGHT CARDS */}
 
-          <div className="border rounded-2xl grid grid-cols-3 divide-x overflow-hidden">
+          <div className="border rounded-2xl grid grid-cols-1 md:grid-cols-3 md:divide-x overflow-hidden">
             {/* CARD 1 */}
 
             <div className="p-8">
@@ -391,7 +391,7 @@ export default function LandingPage() {
 
           {/* STEPS */}
 
-          <div className="mt-16 border rounded-2xl grid md:grid-cols-3 divide-x overflow-hidden text-left">
+          <div className="mt-16 border rounded-2xl grid grid-cols-1 md:grid-cols-3 md:divide-x overflow-hidden text-left">
             {/* STEP 1 */}
 
             <div className="p-10 relative">
@@ -478,7 +478,7 @@ export default function LandingPage() {
 
           {/* TABLE */}
 
-          <div className="mt-12 border rounded-2xl overflow-hidden shadow-md">
+          <div className="mt-12 border rounded-2xl overflow-hidden shadow-md overflow-x-auto">
             <table className="w-full text-sm table-fixed">
               <thead className="bg-neutral-50 text-neutral-400 uppercase tracking-wider text-[11px]">
                 <tr>
@@ -672,7 +672,7 @@ export default function LandingPage() {
           {/* FEATURE GRID */}
 
           <div className="rounded-2xl border border-neutral-200 overflow-hidden">
-            <div className="grid md:grid-cols-3 divide-x divide-neutral-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-neutral-200">
               {/* COLUMN 1 */}
 
               <div className="divide-y divide-neutral-200">
@@ -772,7 +772,7 @@ export default function LandingPage() {
       {/* FAQ */}
 
       <section id="faq" className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[420px_1fr] gap-32 items-start">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-[420px_1fr] gap-16 md:gap-32 items-start">
           {/* LEFT SIDE */}
 
           <div>
@@ -841,7 +841,7 @@ export default function LandingPage() {
               GET STARTED TODAY
             </div>
 
-            <h2 className="text-6xl font-bold leading-tight mb-6">
+            <h2 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
               Upgrade Your <br />
               Recruitment <br />
               <span className="text-blue-500">Process</span>
