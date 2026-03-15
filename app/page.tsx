@@ -129,7 +129,7 @@ export default function LandingPage() {
 
           {/* STATS CARD */}
 
-          <div className="mt-10 flex flex-col sm:flex-row bg-white border rounded-xl shadow sm:divide-x">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 bg-white border rounded-xl shadow divide-y sm:divide-y-0 sm:divide-x">
             <div className="px-6 py-4 text-center">
               <div className="font-bold text-lg">100+</div>
               <div className="text-xs text-neutral-500">CVs per batch</div>
