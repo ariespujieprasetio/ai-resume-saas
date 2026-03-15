@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function LandingPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("ranking");
 
   const faqs = [
     {
@@ -286,84 +287,291 @@ export default function LandingPage() {
 
           <div className="mt-12 flex justify-center">
             <div className="flex bg-neutral-100 rounded-xl border overflow-hidden text-sm">
-              <button className="px-6 py-3 bg-blue-600 text-white font-medium">
+              <button
+                onClick={() => setActiveTab("ranking")}
+                className={`px-6 py-3 font-medium ${
+                  activeTab === "ranking"
+                    ? "bg-blue-600 text-white"
+                    : "text-neutral-500"
+                }`}
+              >
                 🏆 Ranking
               </button>
 
-              <button className="px-6 py-3 text-neutral-500">
+              <button
+                onClick={() => setActiveTab("comparison")}
+                className={`px-6 py-3 ${
+                  activeTab === "comparison"
+                    ? "bg-blue-600 text-white"
+                    : "text-neutral-500"
+                }`}
+              >
                 ⚡ Comparison
               </button>
 
-              <button className="px-6 py-3 text-neutral-500">
+              <button
+                onClick={() => setActiveTab("job")}
+                className={`px-6 py-3 ${
+                  activeTab === "job"
+                    ? "bg-blue-600 text-white"
+                    : "text-neutral-500"
+                }`}
+              >
                 📋 Job Setup
               </button>
 
-              <button className="px-6 py-3 text-neutral-500">
+              <button
+                onClick={() => setActiveTab("insights")}
+                className={`px-6 py-3 ${
+                  activeTab === "insights"
+                    ? "bg-blue-600 text-white"
+                    : "text-neutral-500"
+                }`}
+              >
                 💡 AI Insights
               </button>
             </div>
           </div>
 
           {/* CONTENT */}
+          <AnimatePresence mode="wait"></AnimatePresence>
 
-          <div className="grid md:grid-cols-2 gap-16 mt-20 items-center text-left">
-            {/* LEFT */}
+          {/* RANKING */}
+          {activeTab === "ranking" && (
+            <motion.div
+              key="ranking"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.35 }}
+              className="grid md:grid-cols-2 gap-16 mt-20 items-center text-left"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-xs tracking-widest text-emerald-600 mb-4">
+                  <span className="w-6 h-0.5 bg-emerald-500"></span>
+                  CANDIDATE RANKING
+                </div>
 
-            <div>
-              <div className="flex items-center gap-2 text-xs tracking-widest text-emerald-600 mb-4">
-                <span className="w-6 h-0.5 bg-emerald-500"></span>
-                CANDIDATE RANKING
+                <h3 className="text-3xl font-semibold">
+                  Rank Every Candidate Instantly
+                </h3>
+
+                <p className="text-neutral-600 mt-4 max-w-md">
+                  Upload any volume of CVs and receive a scored, ranked list in
+                  seconds — not hours. Every ranking is transparent and fully
+                  explainable.
+                </p>
+
+                <ul className="mt-6 space-y-4 text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500">✓</span>
+                    AI extracts skills, experience & education from any format
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500">✓</span>
+                    Scored against your exact job requirements automatically
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500">✓</span>
+                    Full score breakdown per candidate — no black box
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500">✓</span>
+                    Handles 100+ CVs in a single batch upload
+                  </li>
+                </ul>
+
+                <a
+                  href="/login"
+                  className="inline-flex items-center gap-2 mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700"
+                >
+                  See It Live →
+                </a>
               </div>
 
-              <h3 className="text-3xl font-semibold">
-                Rank Every Candidate Instantly
-              </h3>
+              <div>
+                <img
+                  src="/screenshot/ranking.jpeg"
+                  className="rounded-2xl shadow-2xl border"
+                />
+              </div>
+            </motion.div>
+          )}
 
-              <p className="text-neutral-600 mt-4 max-w-md">
-                Upload any volume of CVs and receive a scored, ranked list in
-                seconds — not hours. Every ranking is transparent and fully
-                explainable.
-              </p>
+          {/* COMPARISON */}
+          {activeTab === "comparison" && (
+            <motion.div
+              key="ranking"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.35 }}
+              className="grid md:grid-cols-2 gap-16 mt-20 items-center text-left"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-xs tracking-widest text-blue-600 mb-4">
+                  <span className="w-6 h-0.5 bg-blue-500"></span>
+                  CANDIDATE COMPARISON
+                </div>
 
-              <ul className="mt-6 space-y-4 text-neutral-600">
-                <li className="flex items-start gap-3">
-                  <span className="text-emerald-500">✓</span>
-                  AI extracts skills, experience & education from any format
-                </li>
+                <h3 className="text-3xl font-semibold">
+                  Compare Finalists Side-by-Side
+                </h3>
 
-                <li className="flex items-start gap-3">
-                  <span className="text-emerald-500">✓</span>
-                  Scored against your exact job requirements automatically
-                </li>
+                <p className="text-neutral-600 mt-4 max-w-md">
+                  Evaluate top candidates instantly with AI-generated
+                  comparisons across skills, experience, and education.
+                </p>
 
-                <li className="flex items-start gap-3">
-                  <span className="text-emerald-500">✓</span>
-                  Full score breakdown per candidate — no black box
-                </li>
+                <ul className="mt-6 space-y-4 text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500">✓</span>
+                    Side-by-side candidate comparison
+                  </li>
 
-                <li className="flex items-start gap-3">
-                  <span className="text-emerald-500">✓</span>
-                  Handles 100+ CVs in a single batch upload
-                </li>
-              </ul>
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500">✓</span>
+                    AI highlights strengths and weaknesses
+                  </li>
 
-              <a
-                href="/login"
-                className="inline-flex items-center gap-2 mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700"
-              >
-                See It Live →
-              </a>
-            </div>
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500">✓</span>
+                    Clear shortlist presentation for clients
+                  </li>
 
-            {/* RIGHT IMAGE */}
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500">✓</span>
+                    Data-driven hiring decisions
+                  </li>
+                </ul>
+              </div>
 
-            <div>
-              <img
-                src="/screenshot/ranking.jpeg"
-                className="rounded-2xl shadow-2xl border"
-              />
-            </div>
-          </div>
+              <div>
+                <img
+                  src="/screenshot/compare.jpeg"
+                  className="rounded-2xl shadow-2xl border"
+                />
+              </div>
+            </motion.div>
+          )}
+
+          {/* JOB SETUP */}
+          {activeTab === "job" && (
+            <motion.div
+              key="ranking"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.35 }}
+              className="grid md:grid-cols-2 gap-16 mt-20 items-center text-left"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-xs tracking-widest text-amber-600 mb-4">
+                  <span className="w-6 h-0.5 bg-amber-500"></span>
+                  JOB SETUP
+                </div>
+
+                <h3 className="text-3xl font-semibold">
+                  Create Smart Job Evaluations
+                </h3>
+
+                <p className="text-neutral-600 mt-4 max-w-md">
+                  Paste your job description and Veritik automatically generates
+                  a precise AI evaluation rubric tailored to your role.
+                </p>
+
+                <ul className="mt-6 space-y-4 text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <span className="text-amber-500">✓</span>
+                    AI extracts job requirements automatically
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-amber-500">✓</span>
+                    Generate evaluation criteria instantly
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-amber-500">✓</span>
+                    Customize scoring weights easily
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-amber-500">✓</span>
+                    Consistent hiring framework for every role
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <img
+                  src="/screenshot/create-job.jpeg"
+                  className="rounded-2xl shadow-2xl border"
+                />
+              </div>
+            </motion.div>
+          )}
+
+          {/* AI INSIGHTS */}
+          {activeTab === "insights" && (
+            <motion.div
+              key="ranking"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.35 }}
+              className="grid md:grid-cols-2 gap-16 mt-20 items-center text-left"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-xs tracking-widest text-purple-600 mb-4">
+                  <span className="w-6 h-0.5 bg-purple-500"></span>
+                  AI INSIGHTS
+                </div>
+
+                <h3 className="text-3xl font-semibold">
+                  Understand Every Hiring Decision
+                </h3>
+
+                <p className="text-neutral-600 mt-4 max-w-md">
+                  Get AI-generated insights explaining why candidates rank
+                  higher or lower — helping recruiters confidently justify
+                  placements.
+                </p>
+
+                <ul className="mt-6 space-y-4 text-neutral-600">
+                  <li className="flex items-start gap-3">
+                    <span className="text-purple-500">✓</span>
+                    AI explains candidate rankings
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-purple-500">✓</span>
+                    Strengths and skill gaps identified
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-purple-500">✓</span>
+                    Clear placement rationale
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <span className="text-purple-500">✓</span>
+                    Data-backed hiring confidence
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <img
+                  src="/screenshot/ai-insight.jpeg"
+                  className="rounded-2xl shadow-2xl border"
+                />
+              </div>
+            </motion.div>
+          )}
         </div>
       </section>
 
